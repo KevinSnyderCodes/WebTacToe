@@ -51,31 +51,48 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
   <script>
-    var turn = false;
-    var started = false;
-    var stop = true;
-    var numClicked = 0;
-    $("td").on('click', function() {
-      if (!started) {
-        stop = false;
-        started = true;
-        runTimer();
-      }
-      if (!$(this).hasClass("clicked")) {
-        turn = !turn;
-        numClicked++;
-        if (turn) $(this).css("background-color", "red");
-        else $(this).css("background-color", "blue");
-        $(this).addClass("clicked");  
-      }
-      if (numClicked == 9) stop = true;
-    });
+    var turn;
+    var started;
+    var stop;
+    var numClicked;
+    var time = {
+      h: null,
+      m: null,
+      s: null
+    };
 
-    var t = 0;
+    function init() {
+      reset();
+      $("td").on('click', function() {
+        if (!started) {
+          stop = false;
+          started = true;
+          runTimer();
+        }
+        if (!$(this).hasClass("clicked")) {
+          turn = !turn;
+          numClicked++;
+          if (turn) $(this).css("background-color", "red");
+          else $(this).css("background-color", "blue");
+          $(this).addClass("clicked");
+        }
+        if (numClicked == 9) stop = true;
+      });
+      $("#reset").on('click', reset);
+    }
+
     function runTimer() {
       if (!stop) {
-        $("#time").text(t);
-        t++;
+        updateTime();
+        time.s++;
+        if (time.s == 60) {
+          time.s = 0;
+          time.m++;
+        }
+        if (time.m == 60) {
+          time.m = 0;
+          time.h++;
+        }
         window.setTimeout(runTimer, 1000);
       }
     }
@@ -85,18 +102,23 @@
       started = false;
       stop = true;
       numClicked = 0;
+      time = {
+        h: 0,
+        m: 0,
+        s: 0
+      };
       $("td").css("background-color", "white").removeClass("clicked");
-      t = 0;
-      $("#time").text(t);
+      updateTime();
     }
-    $("#reset").on('click', reset);
 
-    /*function async(fn, callback) {
-      setTimeout(function() {
-        fn();
-        if (callback) callback();
-      }, 0);
-    }*/
+    function updateTime() {
+      var s = time.m + ":";
+      if (time.s < 10) s += "0";
+      s += time.s;
+      $("#time").text(s);
+    }
+
+    init();
   </script>
 </body>
 </html>
