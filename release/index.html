@@ -18,6 +18,14 @@
 
       padding: 10px;
     }
+
+    .player1 {
+      background-color: red;
+    }
+
+    .player2 {
+      background-color: blue;
+    }
   </style>
   
 </head>
@@ -72,8 +80,8 @@
         if (!$(this).hasClass("clicked")) {
           turn = !turn;
           numClicked++;
-          if (turn) $(this).css("background-color", "red");
-          else $(this).css("background-color", "blue");
+          if (turn) $(this).addClass("player1");
+          else $(this).addClass("player2");
           $(this).addClass("clicked");
         }
         if (numClicked == 9) stop = true;
@@ -89,10 +97,10 @@
           time.s = 0;
           time.m++;
         }
-        if (time.m == 60) {
+        /*if (time.m == 60) {
           time.m = 0;
           time.h++;
-        }
+        }*/
         window.setTimeout(runTimer, 1000);
       }
     }
@@ -107,7 +115,7 @@
         m: 0,
         s: 0
       };
-      $("td").css("background-color", "white").removeClass("clicked");
+      $("td").removeClass();
       updateTime();
     }
 
