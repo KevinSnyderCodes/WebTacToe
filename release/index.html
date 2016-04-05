@@ -52,7 +52,8 @@
 
   <div class="center">
     <input type="button" id="reset" value="Reset" />
-    <p id="time">0</p>
+    <p id="time"></p>
+    <p id="message"></p>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
@@ -64,7 +65,7 @@
     var stop;
     var numClicked;
     var time = {
-      h: null,
+      //h: null,
       m: null,
       s: null
     };
@@ -79,14 +80,23 @@
         }
         if (!$(this).hasClass("clicked")) {
           turn = !turn;
-          numClicked++;
           if (turn) $(this).addClass("player1");
           else $(this).addClass("player2");
           $(this).addClass("clicked");
+          numClicked++;
+        	if (numClicked == 9) stop = true;
         }
-        if (numClicked == 9) stop = true;
+        updateMessage();
       });
       $("#reset").on('click', reset);
+    }
+
+    function getWinner() {
+    	var values = [];
+    	$("td").each(function(i, elem) {
+    		values[i] = 0;
+    		// if ()
+    	});
     }
 
     function runTimer() {
@@ -117,6 +127,7 @@
       };
       $("td").removeClass();
       updateTime();
+      updateMessage();
     }
 
     function updateTime() {
@@ -124,6 +135,18 @@
       if (time.s < 10) s += "0";
       s += time.s;
       $("#time").text(s);
+    }
+
+    function updateMessage() {
+    	if (!started) $("#message").text("Ready");
+    	// else $("#message").text("Playing");
+    	else {
+    		if (!stop) {
+	    		if (turn) $("#message").text("Player 1's turn");
+	    		else $("#message").text("Player 2's turn");
+    		}
+    		else $("#message").text("Game over");
+    	}
     }
 
     init();
