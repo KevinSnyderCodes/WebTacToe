@@ -39,6 +39,10 @@
       border-bottom: none;
     }
 
+    p {
+    	font-size: 32pt;
+    }
+
     .player1 {
       background-color: red;
     }
@@ -46,32 +50,64 @@
     .player2 {
       background-color: blue;
     }
+
+    .center {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    #content {
+    	position: fixed;
+    	left: 0px;
+    	right: 300px;
+
+    	height: 100%;
+
+    	/* Pretty border shadow */
+    	background-image: -webkit-linear-gradient(right, #CED4D9 0%, #FFFFFF 10px);
+	    background-image: -moz-linear-gradient(right, #CED4D9 0%, #FFFFFF 10px);
+	    background-image: linear-gradient(right, #CED4D9 0%, #FFFFFF 10px);
+    }
+
+    #panel {
+    	position: fixed;
+    	right: 0px;
+
+    	height: 100%;
+    	width: 300px;
+    }
+
+    #panel * {
+    	margin-top: 10px;
+    }
   </style>
   
 </head>
 
 <body>
 
-  <table class="center">
-    <tr>
-      <td>1</td>
-      <td>2</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>5</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>8</td>
-      <td>9</td>
-    </tr>
-  </table>
+	<div id="content" class="center">
+	  <table class="center">
+	    <tr>
+	      <td>1</td>
+	      <td>2</td>
+	      <td>3</td>
+	    </tr>
+	    <tr>
+	      <td>4</td>
+	      <td>5</td>
+	      <td>6</td>
+	    </tr>
+	    <tr>
+	      <td>7</td>
+	      <td>8</td>
+	      <td>9</td>
+	    </tr>
+	  </table>
+  	</div>
 
-  <div class="center">
-    <input type="button" id="reset" value="Reset" />
+  <div id="panel" class="center">
+    <p><input type="button" id="reset" value="Reset" /></p>
     <p id="time"></p>
     <p id="message"></p>
   </div>
