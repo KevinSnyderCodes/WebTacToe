@@ -11,16 +11,20 @@
       text-align: center;
     }
 
-    body * {
-      margin-top: 10px !important;
+    table {
+      width: 100%;
+      height: 100%;
+      table-layout: fixed;
     }
 
     td {
       border: 1px solid black;
-      width: 50px;
-      height: 50px;
+      /*padding: 10px;*/
+    }
 
-      padding: 10px;
+    td {
+      width: 33.33%;
+      height: 33.33%;
     }
 
     td:first-child {
@@ -43,12 +47,12 @@
     	font-size: 32pt;
     }
 
-    .player1 {
-      background-color: red;
+    .player1:before {
+      content: "X";
     }
 
-    .player2 {
-      background-color: blue;
+    .player2:before {
+      content: "O";
     }
 
     .center {
@@ -69,6 +73,16 @@
 	    background-image: linear-gradient(right, #CED4D9 0%, #FFFFFF 10px);
     }
 
+    #board {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      top: 0; bottom: 0;
+      left: 0; right: 0;
+      margin: auto;
+    }
+
     #panel {
     	position: fixed;
     	right: 0px;
@@ -87,24 +101,27 @@
 <body>
 
 	<div id="content" class="center">
-	  <table class="center">
-	    <tr>
-	      <td>1</td>
-	      <td>2</td>
-	      <td>3</td>
-	    </tr>
-	    <tr>
-	      <td>4</td>
-	      <td>5</td>
-	      <td>6</td>
-	    </tr>
-	    <tr>
-	      <td>7</td>
-	      <td>8</td>
-	      <td>9</td>
-	    </tr>
-	  </table>
-  	</div>
+
+    <div id="board">
+      <table class="center">
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
   <div id="panel" class="center">
     <p><input type="button" id="reset" value="Reset" /></p>
@@ -137,8 +154,12 @@
         }
         if (!$(this).hasClass("clicked") && !stop) {
           turn = !turn;
-          if (turn) $(this).addClass("player1");
-          else $(this).addClass("player2");
+          if (turn) {
+            $(this).addClass("player1");
+          }
+          else {
+            $(this).addClass("player2");
+          }
           $(this).addClass("clicked");
           numClicked++;
           winner = getWinner();
@@ -147,6 +168,20 @@
         updateMessage();
       });
       $("#reset").on('click', reset);
+      $(window).on('resize', function(){
+        var size;
+        if ($("#content").width() > $("#content").height()) {
+          size = $("#content").height() - 40;
+        }
+        else {
+          size = $("#content").width() - 40;
+        }
+        $("#board").width(size);
+        $("#board").height(size);
+        var font = ($("td").height() - 10) + "px";
+        $("table").css("font-size", font);
+        $("table").css("line-height", font);
+      }).trigger('resize');
     }
 
     function getWinner() {
@@ -163,7 +198,6 @@
           values[i] = 0;
         }
     	});
-      console.log(values);
       var winner = 0;
       // Check rows, columns
       for (var i = 0; i < 3 && winner == 0; i++) {
@@ -181,11 +215,9 @@
         var diag1 = values[0] + values[4] + values[8];
         var diag2 = values[2] + values[4] + values[6];
         if (Math.abs(diag1) == 3 || Math.abs(diag2) == 3) {
-          console.log("diag");
           winner = values[4];
         }
       }
-      console.log(winner);
       return winner;
     }
 
