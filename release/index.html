@@ -152,7 +152,7 @@
           started = true;
           runTimer();
         }
-        if (!$(this).hasClass("clicked") && !stop) {
+        if (!$(this).hasClass() && !stop) {
           turn = !turn;
           if (turn) {
             $(this).addClass("player1");
@@ -160,9 +160,8 @@
           else {
             $(this).addClass("player2");
           }
-          $(this).addClass("clicked");
           numClicked++;
-          winner = getWinner();
+          if (numClicked >= 5) winner = getWinner();
         	if (numClicked == 9 || winner != 0) stop = true;
         }
         updateMessage();
